@@ -1,0 +1,62 @@
+<x-app-layout>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+        <div class="d-block mb-4 mb-md-0">
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                    <li class="breadcrumb-item">
+                        <a href="{{ route('dashboard') }}">
+                            <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Jingles</li>
+                </ol>
+            </nav>
+            <h2 class="h4">Scheduled Jingles</h2>
+        </div>
+    </div>
+
+
+    <div class="card card-body border-0 shadow table-wrapper table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="border-gray-200">#</th>
+                    <th class="border-gray-200">Jingle</th>
+                    <th class="border-gray-200">Title</th>
+                    <th class="border-gray-200">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @php
+                    $count =0;
+                @endphp
+                @foreach ($jingles as $jingle)
+                    @php
+                        $count++;
+                    @endphp
+                    <tr>
+                        <td>{{$count}}</td>
+                        <td>
+                            <audio controls>
+                                <source src="{{ asset('music/jingles') }}/{{ $jingle->name }}" type="audio/mp3">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </td>
+                        <td class="pt-4">{{$jingle->title}}</td>
+                        <td>
+                            <button type="button" class="btn btn-link btn-sm d-inline-flex text-danger" data-bs-toggle="modal" data-bs-target="#modal-delete{{ $jingle->id }}">
+                                <x-icon name="trash" mini />
+                            </button>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
+            <nav aria-label="Page navigation example">
+                {{ $jingles->links('pagination::bootstrap-5') }}
+            </nav>
+        </div>
+    </div>
+</x-app-layout>
